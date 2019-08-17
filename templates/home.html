@@ -7,6 +7,21 @@
 	{% if session %}
 	<p> You've logged in! Welcome {{ session['username'] }}</p>
 	<p>you have logged in as {{session['c_type']}}</p>
+	<p> <a href="/products"> Click here</a>to show Passwords</p>
+	{% if session['c_type']  =='seller' %}
+
+	<p>Enter Product Details here</p>
+
+	<form action="/products" method="POST">
+		<input type="text" name="name" placeholder="enter Product name....">
+		<input type="text" name="info" placeholder="enter info about Product ">
+
+		<input type="text" name="price" placeholder="enter Product price here ..">
+		<input type="submit" value="removeproduct" name="Add Product">
+	</form>
+
+	{% endif %}
+
 
 	{% else %}
 	<p>Have an account? Login here! </p>

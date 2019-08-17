@@ -1,5 +1,5 @@
 from flask import Flask,render_template,request,session,redirect,url_for
-from model import check_user,add_user_to_db
+from model import check_user,add_user_to_db,add_product_to_db,check_product,get_products,remove_product
 
 
 app = Flask(__name__)
@@ -47,6 +47,42 @@ def signup():
 		return redirect(url_for('home'))
 
 	return redirect(url_for('home'))
+
+
+@app.route('/products',methods=['GET','POST'])
+def products():
+	
+	if request.method =='POST':
+		product_info = {}
+
+		product_info['name'] = request.form['name']
+		product_info['info'] = request.form['info']
+		product_info['price'] = request.form['price']
+		product_info['seller'] = session['username']
+
+		if bool(check_product(product_info['name'])) is True:
+			return "product already exists"
+
+		add_product_to_db(product_info)
+		return redirect(url_for('products'))
+	# return redirect(url_for('home'))
+
+# @app.route('/show_products',methods=['GET'])
+# def show_products():
+	products = get_products()
+	return render_template('products.html',products=products)
+	
+@app.route('/remove',methods=['GET','POST'])
+def remove():
+
+	if request.method == 'POST':
+		name =request.form['name']
+		remove_product (name)
+		return redirect(url_for('products'))
+
+
+
+	return redirect(url_for('products'))
 
 @app.route('/login',methods=['GET','POST'])
 def login():

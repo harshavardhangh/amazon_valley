@@ -1,0 +1,24 @@
+{% extends 'layout.html' %}
+
+{% block body %}
+{% for product in products%}
+<ul>
+	<li> <b>Product Name </b> : {{ product['name'] }} </li>
+	<li> <b>Product price </b> : {{ product['price'] }} </li>
+	<li> <b>Product Info </b> : {{ product['info'] }} </li>
+	<li> <b>Product Seller </b> : {{ product['seller'] }} </li>
+
+</ul>
+
+	{% if session['c_type'] == 'seller'  %}
+
+		<form action="/remove" method="POST">
+			<input type="hidden" name="name" value="{{product['name'] }}">
+			<input type="submit" value="remove product">
+
+		</form>
+	{% endif%}	
+{% endfor %}
+
+
+{% endblock body %}
